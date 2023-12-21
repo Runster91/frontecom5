@@ -41,6 +41,8 @@ const Signup = () => {
         });
     };
 
+    console.log(process.env.REACT_APP_SERVER_DOMIN)
+
     const handleUploadProfileImage = async(e) => {
         const data = await Imagetobase64(e.target.files[0])
         console.log (data)
@@ -53,13 +55,24 @@ const Signup = () => {
         })
     }
 
-    const handleSubmit = (e) => {
+  
+
+    const handleSubmit = async(e) => {
         e.preventDefault()
         const {firstName,email,password,confirmpassword} = data
         if(firstName && email && password && confirmpassword){
             if(password === confirmpassword) {
+                const fetchData = await fetch(`${process.env.REACT_APP_SERVER_DOMIN}/signup`,{
+                    method: "POST",
+                    headers: {
+                        "content-type": "application/json"
+                    },
+                    body: JSON.stringify(data)
+                })
+                    const dataRes = await fetchData.json()
+                    console.log(dataRes)
                 alert("success")
-                navigate("/login")
+                // navigate("/login")
             }
             else{
                 alert("password and confirmpassword doesnt match")
