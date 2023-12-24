@@ -1,87 +1,91 @@
 import React from 'react';
-import toxedog from '../assets/toxedog.png';
-import { RiEye2Line } from "react-icons/ri";
-import { GrFormViewHide } from "react-icons/gr";
-import { useState,  } from "react";
+import { useState } from 'react'; // Move this import to the top
 import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
-import { Imagetobase64 } from '../utility/ImagetoBase64';
+import { ImagetoBase64 } from '../utility/ImagetoBase64';
+import { RiEye2Line } from 'react-icons/ri';
+import { GrFormViewHide } from 'react-icons/gr';
+import { toast } from "react-hot-toast";
 
+import toxedog from '../assets/toxedog.png';
 
-
-
-const Signup = () => {
-    const navigate = useNavigate()
-    const [showPassword,setshowPassword] = useState(false);
-    const [showConfirmPassword, setShowConfirmPassword] =useState(false)
-    const [data,setData]=useState({
-        firstName: "",
-        lastName: "",
-        email: "",
-        password: "",
-        confirmpassword: "",
-        image: ""
-    });
-    console.log(data)
-     const handleshowPassword =()=>{
-        setshowPassword(preve => !preve)
-    }
-    const handleShowConfirmPassword = ()=>(/*  */
-        setShowConfirmPassword(preve => !preve)   
-
-    );
-
+function Signup() {
+  const navigate = useNavigate();
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [data, setData] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    password: "",
+    confirmpassword: "",
+    image : ""
+  });
+  
+    const handleshowPassword = () => {
+      setShowPassword((preve) => !preve);
+    };
+    const handleShowConfirmPassword = () => {
+      setShowConfirmPassword((preve) => !preve);
+    };
+  
     const handleOnChange = (e) => {
-        const {name,value} = e.target
+      const { name, value } = e.target;
+      setData((preve) => {
+        return {
+          ...preve,
+          [name]: value,
+        };
+      });
+    };
+  
+    const handleUploadProfileImage = async(e)=>{
+        const data = await ImagetoBase64(e.target.files[0])
+    
+  
         setData((preve)=>{
             return{
-                ...preve,
-                [name]: value
-            };
-        });
-    };
-
-    console.log(process.env.REACT_APP_SERVER_DOMIN)
-
-    const handleUploadProfileImage = async(e) => {
-        const data = await Imagetobase64(e.target.files[0])
-        console.log (data)
-
-        setData((preve)=> {
-            return{
-                ...preve,
-                image : data
+              ...preve,
+              image : data
             }
         })
-    }
-
   
-
-    const handleSubmit = async(e) => {
-        e.preventDefault()
-        const {firstName,email,password,confirmpassword} = data
-        if(firstName && email && password && confirmpassword){
-            if(password === confirmpassword) {
-                const fetchData = await fetch(`${process.env.REACT_APP_SERVER_DOMIN}/signup`,{
-                    method: "POST",
-                    headers: {
-                        "content-type": "application/json"
-                    },
-                    body: JSON.stringify(data)
-                })
-                    const dataRes = await fetchData.json()
-                    console.log(dataRes)
-                alert("success")
-                // navigate("/login")
-            }
-            else{
-                alert("password and confirmpassword doesnt match")
-            }
-        } else{
-            alert("Please enter required  fields")
-        }
-        
     }
+  console.log(process.env.REACT_APP_SERVER_DOMIN)
+    const handleSubmit = async(e) => {
+       e.preventDefault();
+       const {firstName,email,password,confirmpassword} = data
+       if(firstName && email && password && confirmpassword){
+        if(password === confirmpassword){
+          const fetchData = await fetch(`${process.env.REACT_APP_SERVER_DOMIN}/signup`, {
+            method: "POST",
+            headers: {
+              "content-type" : "application/json"
+            },
+            body: JSON.stringify(data)
+          });
+          
+          const dataRes = await fetchData.json();
+          
+          console.log(dataRes);
+          
+          // alert(dataRes.message);
+          toast(dataRes.message)
+          if(dataRes.alert){
+            navigate("/login")
+          }
+         
+        }
+        else{
+            alert("password and confirm password not equal")
+        }
+       }
+       else{
+          alert("Please enter required fields")
+       }
+    };
+
+
   return (
     <div>
         <div className='p-3 md:p-4'>

@@ -4,19 +4,19 @@ import { RiEye2Line } from "react-icons/ri";
 import { GrFormViewHide } from "react-icons/gr";
 import { Link } from 'react-router-dom';
 import checkpoint from ".././assets/checkpoint.png"
-
+import { toast } from 'react-hot-toast';
+import { useNavigate } from 'react-router-dom';
 
 
 function Login() {
     const [showPassword,setshowPassword] = useState(false);
     
     const [data,setData]=useState({
-        firstName: "",
-        lastName: "",
-        email: "",
+         email: "",
         password: "",
-        confirmpassword: "",
+       
     });
+    const navigate = useNavigate()
     console.log(data)
      const handleshowPassword =()=>{
         setshowPassword(preve => !preve)
@@ -33,11 +33,28 @@ function Login() {
         })
     }
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async(e) => {
         e.preventDefault()
         const {email,password} = data
         if ( email && password){
-              alert("success")       
+            const fetchData = await fetch(`${process.env.REACT_APP_SERVER_DOMIN}/login`, {
+                method: "POST",
+                headers: {
+                  "content-type" : "application/json"
+                },
+                body: JSON.stringify(data)
+              });
+              
+              const dataRes = await fetchData.json();
+              
+              console.log(dataRes); 
+              toast(dataRes.message)
+              if(dataRes.alert){
+                setTimeout(()=>{
+                    navigate("/")
+                },1000)
+              }
+                 
            
         } else{
             alert("Please enter required  fields")

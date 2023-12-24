@@ -1,16 +1,16 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
+import { createBrowserRouter, createRoutesFromElements, Routes, RouterProvider, Route } from 'react-router-dom'; // Move this import to the top
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import { createBrowserRouter,createRoutesFromElements,Routes,RouterProvider, Route } from 'react-router-dom';
-import Menu from './pages/Menu';
-import About from './pages/About';
-import Contact from './pages/Contact';
-import Home from './pages/Home';
-import Login from './pages/Login';
-import Newproduct from './pages/Newproduct';;
-import Signup from './pages/Signup';
+import Menu from "../src/pages/Menu.js";
+import About from "../src/pages/About.js";
+import Contact from "../src/pages/Contact.js";
+import Home from "../src/pages/Home.js";
+import Login from "../src/pages/Login.js";
+import Newproduct from './pages/Newproduct';
+import Signup from '../src/pages/Signup';
 
 const router =createBrowserRouter(
   createRoutesFromElements(
