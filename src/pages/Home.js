@@ -3,10 +3,10 @@ import { MdCloudUpload } from "react-icons/md";
 
 const Home = () => {
   const uploadImaage = (e)=>{
-    
+    console.log(e.files)
   }
   return (
-    <div className=' m-auto  w-full  text-red-50 p-2 bg-orange-700 flex flex-col  flex items-center justify-center p-8 '>
+    <div className='  m-auto  w-full  text-red-50 p-2 bg-orange-700 flex flex-col  flex items-center justify-center p-8 '>
       
       <form className='text-2x1   text-red-50 p-2 bg-orange-400 p-5 rounded flex items-center justify-center'>
       <div className='text-2x1   text-red-50 p-2 bg-zinc-950 outline-none focus-within:outline-orange-700 flex items-center justify-center rounded '>
