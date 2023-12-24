@@ -6,6 +6,8 @@ import { Link } from 'react-router-dom';
 import checkpoint from ".././assets/checkpoint.png"
 import { toast } from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { loginRedux } from '../redux/userSlice';
 
 
 function Login() {
@@ -17,7 +19,12 @@ function Login() {
        
     });
     const navigate = useNavigate()
-    console.log(data)
+
+    const userData = useSelector(state => state)
+  
+    const dispatch = useDispatch()
+
+   
      const handleshowPassword =()=>{
         setshowPassword(preve => !preve)
     }
@@ -48,13 +55,16 @@ function Login() {
               const dataRes = await fetchData.json();
               
               console.log(dataRes); 
+              
               toast(dataRes.message)
               if(dataRes.alert){
+                dispatch(loginRedux(dataRes))
                 setTimeout(()=>{
                     navigate("/")
                 },1000)
               }
-                 
+               
+              console.log(userData)
            
         } else{
             alert("Please enter required  fields")
