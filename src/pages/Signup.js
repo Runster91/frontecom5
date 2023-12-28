@@ -96,7 +96,7 @@ function Signup() {
                     <div>
                     <p className='text-2x1  text-red-50 p-2 hover:text-amber-600 cursor-pointer'>Upload</p>
                     </div>
-                    <input type={"file"} id='profileImage' accept="image/*" className='hidden' onChange={handleUploadProfileImage}/>
+                    <input type={"file"} id='profileImage' accept="image/*" className="hidden" onChange={handleUploadProfileImage}/>
                 </label>
                 
                
